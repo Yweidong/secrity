@@ -51,7 +51,7 @@ public class TbRoleEntity {
     private Date updated;
 
     @JsonIgnoreProperties(value = { "roles" })
-    @ManyToMany(cascade = CascadeType.REMOVE,mappedBy = "roles",fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "roles",fetch = FetchType.LAZY)
     Set<TbUserEntity> users = new HashSet<>();
 
 
@@ -126,6 +126,14 @@ public class TbRoleEntity {
 
     public void setUsers(Set<TbUserEntity> users) {
         this.users = users;
+    }
+
+    public Set<TbPermissionEntity> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<TbPermissionEntity> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

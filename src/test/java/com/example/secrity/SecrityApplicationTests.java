@@ -1,5 +1,6 @@
 package com.example.secrity;
 
+import com.example.secrity.entity.TbPermissionEntity;
 import com.example.secrity.entity.TbRoleEntity;
 import com.example.secrity.entity.TbUserEntity;
 import com.example.secrity.service.TbUserService;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.DoubleStream;
 
 @SpringBootTest
 class SecrityApplicationTests {
@@ -28,18 +30,22 @@ class SecrityApplicationTests {
     @Test
     void Test1() {
         TbUserEntity tbUser = tbUserService.getByUserName("admin");
-//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        System.out.println(tbUser);
-//        if(tbUser!=null) {
-//            Set<TbRoleEntity> roles = tbUser.getRoles();
-//            roles.forEach(TbRoleEntity->{
-//                if(TbRoleEntity!=null ) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-//                    GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(tbPermission.getEnname());
-//                    grantedAuthorities.add(grantedAuthority);
-//                }
-//            });
-//        }
+        if(tbUser!=null) {
 
+            tbUser.getRoles().forEach(TbRoleEntity->{
+                if(TbRoleEntity!=null ) {
+                    TbRoleEntity.getPermissions().forEach(TbPermissionEntity->{
+                        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(TbPermissionEntity.getEnname());
+                        grantedAuthorities.add(grantedAuthority);
+
+                    });
+//
+                }
+            });
+
+        }
+        System.out.println(grantedAuthorities);
     }
 }
